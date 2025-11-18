@@ -18,26 +18,7 @@ body {
     font-size: 1.1em;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 10px 0;
-}
-
-fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-legend {
-    font-weight: 600;
-    font-size: 0.9em;
-    padding: 0 0 5px 0;
-    width: 100%;
-}
-
-/* --- Master Toggle Switch --- */
+/* --- Master Toggle Switch (Unchanged) --- */
 .switch {
     position: relative;
     display: inline-block;
@@ -75,7 +56,6 @@ legend {
 
 input:checked+.slider {
     background-color: #007aff;
-    /* Blue */
 }
 
 input:checked+.slider:before {
@@ -90,44 +70,4 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-/* --- Mode Toggle Switch --- */
-.toggle-container {
-    display: flex;
-    border: 1px solid #007aff;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.toggle-container input[type="radio"] {
-    display: none;
-    /* Hide the actual radio button */
-}
-
-.toggle-container label {
-    flex: 1;
-    /* Make labels take equal space */
-    padding: 8px;
-    text-align: center;
-    font-size: 0.9em;
-    cursor: pointer;
-    background-color: #fff;
-    color: #007aff;
-    transition: background-color 0.2s, color 0.2s;
-    user-select: none;
-}
-
-.toggle-container label:first-of-type {
-    border-right: 1px solid #007aff;
-}
-
-.toggle-container input[type="radio"]:checked+label {
-    background-color: #007aff;
-    /* Selected state */
-    color: #fff;
-}
-
-/* Disable mode selector when master switch is off */
-body.disabled .mode-selector {
-    opacity: 0.5;
-    pointer-events: none;
-}
+/* All stats box styles have been removed */

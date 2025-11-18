@@ -2,22 +2,14 @@
     "manifest_version": 3,
     "name": "My Security Extension",
     "version": "1.0",
-    "description": "A browser extension for phishing and malware protection.",
+    "description": "A browser extension for phishing protection.",
     "permissions": [
         "storage",
-        "declarativeNetRequest",
-        "tabs"
+        "declarativeNetRequest"
     ],
     "host_permissions": [
-        "<all_urls>",
-        "https://www.virustotal.com/"
+        "<all_urls>"
     ],
-    "background": {
-        "service_worker": "src/background.js"
-    },
-    "action": {
-        "default_popup": "src/popup/popup.html"
-    },
     "declarative_net_request": {
         "rule_resources": [
             {
@@ -26,6 +18,12 @@
                 "path": "rulesets/phishing_rules.json"
             }
         ]
+    },
+    "background": {
+        "service_worker": "src/background.js"
+    },
+    "action": {
+        "default_popup": "src/popup/popup.html"
     },
     "web_accessible_resources": [
         {

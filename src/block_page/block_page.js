@@ -1,24 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const blockedUrl = urlParams.get('url');
-    const mode = urlParams.get('mode');
+    const blockedUrl = urlParams.get('url'); // This is the clean domain, e.g., "domain.com"
+    // Removed 'mode' variable
 
     // Display the blocked URL
     const urlElement = document.getElementById('blocked-url');
+    let displayUrl = blockedUrl;
     if (blockedUrl) {
-        // For DNR rules, the URL might be the filter rule (||domain.com^)
-        // Let's clean it up for display
-        const displayUrl = blockedUrl.replace('||', '').replace('^', '');
+        // Clean up the URL for display
+        displayUrl = blockedUrl.replace('||', '').replace('^', '');
         urlElement.textContent = displayUrl;
     }
 
     // Display the reason
     const reasonElement = document.getElementById('block-reason');
-    if (mode === 'phishing') {
-        reasonElement.textContent = 'a known phishing filter list';
-    } else if (mode === 'total_security') {
-        reasonElement.textContent = 'VirusTotal';
-    }
+    // Hardcode the reason since there's only one mode
+    reasonElement.textContent = 'a known phishing filter list';
+    // Removed 'if (mode === ...)' logic
 
     // "Go Back" button logic
     document.getElementById('go-back').addEventListener('click', () => {
@@ -26,22 +24,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // "Proceed" button logic
-    document.getElementById('proceed').addEventListener('click', () => {
-        // Send a message to the background script to temporarily whitelist this URL
-        chrome.runtime.sendMessage({
-            command: 'whitelistTemporarily',
-            url: blockedUrl // Send the original, un-cleaned URL/filter
-        });
+    document.getElementById('proceed').addEventListener('click', async () => {
 
-        // Try to redirect to the site
-        // Note: For DNR rules, 'blockedUrl' is the filter, not the full URL.
-        // This is a limitation. The "Total Security" proceed will work better.
-        // A more advanced solution would pass the full URL from the listener.
-        if (mode === 'total_security') {
-            window.location.href = blockedUrl;
-        } else {
-            // For phishing, we just have the domain. Try to go there.
-            window.location.href = 'http://' + urlElement.textContent;
+        try {
+            // Send the clean domain
+            await chrome.runtime.sendMessage({
+                command: 'whitelistTemporarily',
+                url: blockedUrl
+            });
+        } catch (e) {
+            console.error("Failed to add whitelist rule:", e);
+            return; // Stop if the rule wasn't added
         }
+
+        // This code now only runs AFTER the background script is done
+        // Only one action now, no 'if mode === ...'
+        window.location.href = 'http://' + displayUrl;
     });
 });
