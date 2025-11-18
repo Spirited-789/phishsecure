@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Site Blocked</title>
+    <link rel="stylesheet" href="block_page.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Deceptive site ahead</h1>
+        <p>This site has been identified as dangerous by <strong id="block-reason"></strong>.</p>
+        <p class="details">
+            Visiting this site may harm your computer, steal your data, or trick you into sharing personal information.
+        </p>
+        <p class="url-blocked">
+            Blocked URL: <strong id="blocked-url"></strong>
+        </p>
+
+        <div class="buttons">
+            <button id="go-back">Go Back</button>
+            <button id="proceed">Proceed anyway (unsafe)</button>
+        </div>
+    </div>
+    <script src="block_page.js"></script>
+</body>
+
+</html>
