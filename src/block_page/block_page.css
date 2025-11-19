@@ -1,7 +1,6 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: #fbebeb;
-    /* Light red */
     color: #333;
     display: flex;
     justify-content: center;
@@ -9,16 +8,6 @@ body {
     height: 100vh;
     margin: 0;
     text-align: center;
-}
-
-.container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    border-top: 8px solid #d93025;
-    /* Red warning bar */
 }
 
 h1 {
