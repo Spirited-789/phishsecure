@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "My Security Extension",
-    "version": "1.0",
+    "name": "PhishSecure",
+    "version": "0.1.0",
     "description": "A browser extension for phishing protection.",
     "permissions": [
         "storage",
@@ -24,6 +24,11 @@
     },
     "action": {
         "default_popup": "src/popup/popup.html"
+    },
+    "icons": {
+        "16": "assets/icons/shield-16.png",
+        "48": "assets/icons/shield-48.png",
+        "128": "assets/icons/shield-128.png"
     },
     "web_accessible_resources": [
         {
