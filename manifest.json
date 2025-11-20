@@ -5,10 +5,12 @@
     "description": "A browser extension for phishing protection.",
     "permissions": [
         "storage",
-        "declarativeNetRequest"
+        "declarativeNetRequest",
+        "alarms"
     ],
     "host_permissions": [
-        "<all_urls>"
+        "<all_urls>",
+        "https://raw.githubusercontent.com/"
     ],
     "declarative_net_request": {
         "rule_resources": [

@@ -3,7 +3,7 @@ const PHISHING_RULESET_ID = "phishing_ruleset";
 const UPDATE_ALARM_NAME = "daily_patch_check";
 
 // REPLACE THIS with your actual raw GitHub URL for the updates file
-const PATCH_URL = "https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/rulesets/updates.json";
+const PATCH_URL = "https://raw.githubusercontent.com/illumino7/phishsecure/refs/heads/dynamic-update-test/rulesets/updates.json";
 
 let isEnabled = true;
 
