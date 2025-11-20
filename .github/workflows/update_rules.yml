@@ -2,16 +2,24 @@ name: Update Phishing Rules
 
 on:
   schedule:
-    # Run every day at midnight UTC
+    # Run daily at midnight UTC
     - cron: '0 0 * * *'
-  workflow_dispatch: # Allows you to run it manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'Update Type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - release
 
 jobs:
-  update-ruleset:
+  process-rules:
     runs-on: ubuntu-latest
-    
     permissions:
-      contents: write # Important: Allows the action to push changes back
+      contents: write
 
     steps:
       - name: Checkout Repository
@@ -24,23 +32,31 @@ jobs:
 
       - name: Download Filter List
         run: |
-          curl -o phishing-filter.txt https://malware-filter.gitlab.io/malware-filter/phishing-filter.txt
+          curl -f -o phishing-filter.txt https://malware-filter.gitlab.io/malware-filter/phishing-filter.txt
 
-      - name: Convert to Static Ruleset
+      - name: Run Conversion Script
         run: |
-          # This runs your existing conversion script
-          node convert-list.js
-
-      - name: Check for Changes
-        id: git-check
-        run: |
-          git diff --exit-code || echo "changes_exist=true" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.update_type }}" == "release" ]]; then
+            echo "Triggering RELEASE update..."
+            node convert-list.js --release
+          else
+            echo "Triggering DAILY PATCH update..."
+            node convert-list.js
+          fi
 
       - name: Commit and Push Changes
-        if: steps.git-check.outputs.changes_exist == 'true'
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
+          
+          # Add both files (Git handles if one hasn't changed)
           git add rulesets/phishing_rules.json
-          git commit -m "Auto-update phishing ruleset [skip ci]"
-          git push
+          git add rulesets/updates.json
+          
+          # Check if anything actually changed
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-update rules (${{ inputs.update_type || 'patch' }}) [skip ci]"
+            git push
+          fi
